@@ -18,23 +18,23 @@ func TestScene_SurfaceFreeFall(t *testing.T) {
 	const WeightOfShip = 1 // Indifferent
 	s := NewScene(Dim, Dim, G)
 	body := &Body{
-		mass: WeightOfEarth,
+		Mass: WeightOfEarth,
 	}
 	ship := &Ship {Body: Body {
-		pos: Vector{0, RadiusOfEarth + 10},
+		Pos: Vector{0, RadiusOfEarth + 10},
 		//v: Vector{1000, 0},
-		mass: WeightOfShip,
+		Mass: WeightOfShip,
 	}}
 	s.AddBody(body)
 	s.AddPlayer(ship)
 	for i := 0; i < NIters; i++ {
 		s.Update(DeltaT)
-		assert.Zero(t, body.pos)
-		assert.Zero(t, body.v)
+		assert.Zero(t, body.Pos)
+		assert.Zero(t, body.V)
 		assert.Zero(t, body.f)
 		assert.Zero(t, ship.f)
-		dist := ship.pos.Distance(body.pos).Magnitude() - RadiusOfEarth
-		t.Logf("iter %d distance=%f pos=%v", i, dist, ship.pos)
+		dist := ship.Pos.Distance(body.Pos).Magnitude() - RadiusOfEarth
+		t.Logf("iter %d distance=%f pos=%v", i, dist, ship.Pos)
 		if i < 17 {
 			// First 1.7 seconds is still in the air
 			assert.True(t, dist > 0)
@@ -43,6 +43,8 @@ func TestScene_SurfaceFreeFall(t *testing.T) {
 			assert.True(t, dist < 0)
 		}
 	}
+	js := string(s.JSon())
+	t.Logf("Serialised to %v", js)
 }
 
 // 8.69616899342509
@@ -59,13 +61,13 @@ func TestScene_Orbit(t *testing.T) {
 	const Altitude = 1000.0
 	s := NewScene(Dim, Dim, G)
 	body := &Body{
-		mass: WeightOfEarth,
+		Mass: WeightOfEarth,
 	}
 	ship := &Ship {Body: Body {
-		pos: Vector{0, RadiusOfEarth + Altitude},
+		Pos: Vector{0, RadiusOfEarth + Altitude},
 		//v: Vector{6221.432103094101, 0.002},
-		v: Vector{x: 8.69616899342509},
-		mass: WeightOfShip,
+		V:    Vector{X: 8.69616899342509},
+		Mass: WeightOfShip,
 	}}
 	s.AddBody(body)
 	s.AddPlayer(ship)
@@ -78,8 +80,8 @@ func TestScene_Orbit(t *testing.T) {
 		//assert.Zero(t, body.v)
 		//assert.Zero(t, body.f)
 		//assert.Zero(t, ship.f)
-		dist := ship.pos.Distance(body.pos).Magnitude() - RadiusOfEarth
-		a := Degrees(ship.pos.Angle())
+		dist := ship.Pos.Distance(body.Pos).Magnitude() - RadiusOfEarth
+		a := Degrees(ship.Pos.Angle())
 		if dist < 0 || dist > 2.0*Altitude {
 			//return false, a, dist, ship.v.Magnitude() / sp
 			return
@@ -90,7 +92,7 @@ func TestScene_Orbit(t *testing.T) {
 			if loops > 0 {
 				//return true, a, dist, ship.v.Magnitude() / sp
 			}
-			t.Logf("loop %d distance=%f deg=%f v=%v", loops, dist, a, ship.v.Magnitude())
+			t.Logf("loop %d distance=%f deg=%f v=%v", loops, dist, a, ship.V.Magnitude())
 		}
 		wasNegDegs = negDegs
 	}

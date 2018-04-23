@@ -22,13 +22,13 @@ func TestBody_ApplyForce(t *testing.T) {
 	}{
 		errMsg := fmt.Sprintf("Test case %d: %+v", idx+1, testCase)
 		body := Body{
-			mass: testCase.mass,
-			pos: testCase.pos,
-			v: testCase.v,
-			f: testCase.f,
+			Mass: testCase.mass,
+			Pos:  testCase.pos,
+			V:    testCase.v,
+			f:    testCase.f,
 		}
 		body.ApplyForce(testCase.deltaT)
-		assert.Equal(t, testCase.expectedPos, body.pos, errMsg)
+		assert.Equal(t, testCase.expectedPos, body.Pos, errMsg)
 		// Force should be always zero after being applied
 		assert.Zero(t, body.f)
 	}

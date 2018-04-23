@@ -3,34 +3,35 @@ package game
 import "math"
 
 type Vector struct {
-	x, y float64
+	X Float `json:"x"`
+	Y Float `json:"y"`
 }
 
 func (v Vector) Distance(dest Vector) Vector {
-	return Vector {dest.x - v.x, dest.y - v.y}
+	return Vector {dest.X - v.X, dest.Y - v.Y}
 }
 
 func (v Vector) Angle() Float {
-	return math.Atan2(v.y, v.x)
+	return math.Atan2(v.Y, v.X)
 }
 
 func (v *Vector) Add(a Vector) {
-	v.x += a.x
-	v.y += a.y
+	v.X += a.X
+	v.Y += a.Y
 }
 
 func (v *Vector) Sub(a Vector) {
-	v.x -= a.x
-	v.y -= a.y
+	v.X -= a.X
+	v.Y -= a.Y
 }
 
 func (v *Vector) Reset() {
-	v.x = 0
-	v.y = 0
+	v.X = 0
+	v.Y = 0
 }
 
 func (v Vector) SqMagnitude() Float {
-	return v.x * v.x + v.y * v.y
+	return v.X* v.X + v.Y* v.Y
 }
 
 func (v Vector) Magnitude() Float {
