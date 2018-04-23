@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>GRAV</title>
+    <style language="text/css">
+body {
+    background-color: black
+}
+    </style>
+    <script language="javascript">
+function run() {
+    var sock = new WebSocket("ws://localhost:8080/ws", "game");
+    sock.onopen = function (event) {
+        var msg = {
+            type: "action",
+            keys: "llruuud",
+            id: 1234,
+            date: Date.now()
+        };
+        sock.send(JSON.stringify(msg));
+    };
+}
+    </script>
+    </head>
+    <body onload="javascript:run();">
+    </body>
+</html>
